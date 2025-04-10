@@ -24,10 +24,13 @@ public class CassandraToKafkaExporter {
         this.checkpointFile = config.getStateCheckpointFile();
         this.checkpointState = CheckpointState.load(checkpointFile);
 
-        // Register shutdown hook
-        Runtime.getRuntime().addShutdownHook(new Thread(() -> {
-            logger.info("Shutdown initiated, gracefully stopping...");
-            running.set(false);
+        // Register shutdown hook using Java 8 compatible code
+        Runtime.getRuntime().addShutdownHook(new Thread(new Runnable() {
+            @Override
+            public void run() {
+                logger.info("Shutdown initiated, gracefully stopping...");
+                running.set(false);
+            }
         }));
     }
 

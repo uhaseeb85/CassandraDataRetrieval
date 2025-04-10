@@ -10,11 +10,11 @@ A robust Java application to export large datasets from Apache Cassandra to Apac
 - Robust error handling with configurable retry mechanisms
 - Configurable Cassandra connection parameters
 - Configurable Kafka topic and connection parameters
-- Detailed logging with file rotation
+- Detailed logging with Log4j2 for file rotation and configurable log levels
 
 ## Requirements
 
-- Java 11 or higher
+- Java 8 or higher
 - Maven 3.6.x or higher
 - Apache Cassandra (tested with 3.x and 4.x)
 - Apache Kafka (tested with 2.x and 3.x)
@@ -83,12 +83,12 @@ java -jar target/cassandra-to-kafka-1.0-SNAPSHOT-jar-with-dependencies.jar
 You can also create a custom properties file and specify it using:
 
 ```bash
-java -Dlogback.configurationFile=path/to/logback.xml -jar target/cassandra-to-kafka-1.0-SNAPSHOT-jar-with-dependencies.jar path/to/custom-application.properties
+java -Dlog4j.configurationFile=path/to/log4j2.xml -jar target/cassandra-to-kafka-1.0-SNAPSHOT-jar-with-dependencies.jar path/to/custom-application.properties
 ```
 
 ## Monitoring
 
-The application logs detailed information to both console and file. Log files are stored in the `logs` directory.
+The application logs detailed information to both console and file using Log4j2. Log files are stored in the `logs` directory.
 
 ## Restarting After Failure
 

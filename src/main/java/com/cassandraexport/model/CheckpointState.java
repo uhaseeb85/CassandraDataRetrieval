@@ -8,14 +8,15 @@ import org.slf4j.LoggerFactory;
 
 import java.io.File;
 import java.io.IOException;
-import java.time.LocalDateTime;
-import java.time.format.DateTimeFormatter;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 
 @JsonIgnoreProperties(ignoreUnknown = true)
 public class CheckpointState {
     private static final Logger logger = LoggerFactory.getLogger(CheckpointState.class);
     private static final ObjectMapper mapper = new ObjectMapper()
             .configure(SerializationFeature.INDENT_OUTPUT, true);
+    private static final SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss");
 
     private long lastProcessedOffset;
     private int batchesProcessed;
@@ -28,8 +29,7 @@ public class CheckpointState {
         this.lastProcessedOffset = 0;
         this.batchesProcessed = 0;
         this.recordsProcessed = 0;
-        this.lastProcessedTimestamp = LocalDateTime.now()
-                .format(DateTimeFormatter.ISO_LOCAL_DATE_TIME);
+        this.lastProcessedTimestamp = dateFormat.format(new Date());
         this.completed = false;
         this.errorMessage = null;
     }
@@ -55,8 +55,7 @@ public class CheckpointState {
 
     public void save(String checkpointFilePath) {
         try {
-            this.lastProcessedTimestamp = LocalDateTime.now()
-                    .format(DateTimeFormatter.ISO_LOCAL_DATE_TIME);
+            this.lastProcessedTimestamp = dateFormat.format(new Date());
             mapper.writeValue(new File(checkpointFilePath), this);
             logger.debug("Saved checkpoint state to: {}", checkpointFilePath);
         } catch (IOException e) {
@@ -72,14 +71,12 @@ public class CheckpointState {
 
     public void markCompleted() {
         this.completed = true;
-        this.lastProcessedTimestamp = LocalDateTime.now()
-                .format(DateTimeFormatter.ISO_LOCAL_DATE_TIME);
+        this.lastProcessedTimestamp = dateFormat.format(new Date());
     }
 
     public void setError(String message) {
         this.errorMessage = message;
-        this.lastProcessedTimestamp = LocalDateTime.now()
-                .format(DateTimeFormatter.ISO_LOCAL_DATE_TIME);
+        this.lastProcessedTimestamp = dateFormat.format(new Date());
     }
 
     public long getLastProcessedOffset() {
