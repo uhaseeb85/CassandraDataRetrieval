@@ -28,11 +28,27 @@ public class KafkaProducer implements AutoCloseable {
     private final int maxRetries;
     private final long retryBackoffMs;
     
+    // Existing default constructor - now delegates to the new one
     public KafkaProducer() {
-        this.config = AppConfig.getInstance();
+        this(AppConfig.getInstance());
+    }
+    
+    // New constructor accepting AppConfig
+    public KafkaProducer(AppConfig config) {
+        this.config = config;
         this.maxRetries = config.getErrorMaxRetries();
         this.retryBackoffMs = config.getErrorRetryBackoffMs();
         initializeProducer();
+    }
+    
+    // Test-specific constructor that skips producer initialization
+    KafkaProducer(AppConfig config, boolean skipInitialization) {
+        this.config = config;
+        this.maxRetries = config.getErrorMaxRetries();
+        this.retryBackoffMs = config.getErrorRetryBackoffMs();
+        if (!skipInitialization) {
+            initializeProducer();
+        }
     }
     
     private void initializeProducer() {

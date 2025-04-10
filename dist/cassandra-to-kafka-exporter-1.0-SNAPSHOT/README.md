@@ -145,33 +145,13 @@ If you don't have Maven installed, you can use the included scripts:
 
 The tests cover the following components:
 
-1. **CheckpointState** (6 tests) - Tests checkpoint persistence and recovery
-2. **AppConfig** (2 tests) - Tests configuration loading and property access
-3. **CassandraClient** (3 tests) - Tests Cassandra connection and batch fetching behavior
-4. **KafkaProducer** (6 tests) - Tests message sending and error handling 
-5. **CassandraToKafkaExporter** (5 tests) - Tests the main export process flow
-
-All tests are passing successfully with the following coverage:
-- Total tests: 22
-- Success rate: 100%
-- Test execution time: ~6 seconds
-
-### Test Reports and Recommendations
+1. **CheckpointState** - Tests checkpoint persistence and recovery
+2. **AppConfig** - Tests configuration loading and property access
+3. **CassandraClient** - Tests Cassandra connection and batch fetching behavior
+4. **KafkaProducer** - Tests message sending and error handling 
+5. **CassandraToKafkaExporter** - Tests the main export process flow
 
 Test reports are generated in the `target/test-reports` directory.
-
-Current warnings to address:
-1. Bootstrap class path warning for Java 8 compatibility
-   - Consider updating to Java 11 or higher for better compatibility
-   - If staying with Java 8, set the bootstrap classpath explicitly
-
-2. Unchecked operations in CassandraToKafkaExporterTest
-   - Add appropriate generic type parameters to remove unchecked warnings
-   - Use `@SuppressWarnings("unchecked")` where type safety is guaranteed
-
-3. Deprecated API usage in KafkaProducerTest
-   - Update to use the latest non-deprecated Kafka Producer API methods
-   - Consider updating the Kafka client version if needed
 
 ## License
 

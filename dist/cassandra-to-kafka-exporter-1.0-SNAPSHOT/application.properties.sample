@@ -1,0 +1,56 @@
+# ==========================================
+# Cassandra to Kafka Exporter Configuration
+# ==========================================
+
+# Cassandra Connection
+# --------------------
+# Comma-separated list of Cassandra hosts
+cassandra.contactPoints=localhost
+# Cassandra native transport port
+cassandra.port=9042
+# Local datacenter name (required for driver)
+cassandra.localDatacenter=datacenter1
+# Keyspace and table to export data from
+cassandra.keyspace=my_keyspace
+cassandra.table=my_table
+# Optional authentication (leave empty if not needed)
+cassandra.username=
+cassandra.password=
+
+# Query Configuration
+# ------------------
+# Query to execute (without LIMIT clause - it will be added automatically)
+cassandra.query=SELECT * FROM my_keyspace.my_table
+# Number of records to fetch and process in each batch
+cassandra.batchSize=10000
+# Total number of records to process
+cassandra.totalRecords=6000000
+
+# State Management
+# ---------------
+# File to store checkpoint information for restart capability
+state.checkpointFile=checkpoint.json
+
+# Kafka Configuration
+# ------------------
+# Comma-separated list of Kafka brokers
+kafka.bootstrapServers=localhost:9092
+# Topic to send the data to
+kafka.topic=cassandra_data
+# Client ID for Kafka producer
+kafka.clientId=cassandra-exporter
+# Producer acknowledgment level (all, 1, 0)
+kafka.acks=all
+# Number of retries for Kafka producer
+kafka.retries=10
+# Size of a single producer batch in bytes
+kafka.batchSize=16384
+# Producer buffer memory in bytes
+kafka.bufferMemory=33554432
+
+# Error Handling
+# -------------
+# Maximum number of retries for failed operations
+error.maxRetries=5
+# Delay between retries in milliseconds (will be multiplied by retry attempt number)
+error.retryBackoffMs=1000 
