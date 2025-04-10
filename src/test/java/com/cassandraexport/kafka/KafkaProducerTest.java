@@ -14,6 +14,7 @@ import org.mockito.junit.jupiter.MockitoExtension;
 import org.springframework.test.util.ReflectionTestUtils;
 
 import java.nio.file.Path;
+import java.util.HashMap;
 import java.util.Map;
 import java.util.concurrent.CompletableFuture;
 
@@ -46,7 +47,9 @@ class KafkaProducerTest {
     @Test
     void testSendRecordSuccess() throws Exception {
         // Arrange
-        Map<String, Object> record = Map.of("id", "1", "name", "Test");
+        Map<String, Object> record = new HashMap<>();
+        record.put("id", "1");
+        record.put("name", "Test");
         TopicPartition topicPartition = new TopicPartition("test-topic", 0);
         RecordMetadata metadata = new RecordMetadata(topicPartition, 0L, 0L, 0L, Long.valueOf(0L), 0, 0);
         CompletableFuture<RecordMetadata> future = CompletableFuture.completedFuture(metadata);
@@ -64,7 +67,9 @@ class KafkaProducerTest {
     @Test
     void testSendRecordFailure() throws Exception {
         // Arrange
-        Map<String, Object> record = Map.of("id", "1", "name", "Test");
+        Map<String, Object> record = new HashMap<>();
+        record.put("id", "1");
+        record.put("name", "Test");
         CompletableFuture<RecordMetadata> future = new CompletableFuture<>();
         future.completeExceptionally(new RuntimeException("Test exception"));
         
@@ -81,7 +86,9 @@ class KafkaProducerTest {
     @Test
     void testSendRecordTimeout() throws Exception {
         // Arrange
-        Map<String, Object> record = Map.of("id", "1", "name", "Test");
+        Map<String, Object> record = new HashMap<>();
+        record.put("id", "1");
+        record.put("name", "Test");
         CompletableFuture<RecordMetadata> future = new CompletableFuture<>();
         future.completeExceptionally(new TimeoutException("Timed out"));
         
